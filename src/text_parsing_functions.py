@@ -53,7 +53,7 @@ def lowercase_text(text):
     >>> lowercase_text('AbC')
     'abc'
     """
-    pass
+    return text.lower()
 
 
 def remove_punctuation(text, punctuation=punctuation):
@@ -81,8 +81,9 @@ def remove_punctuation(text, punctuation=punctuation):
     """
     # TODO: Your code here
     # Hint: Loop through each punctuation character and replace it
-    pass
-
+    for punc in punctuation:
+        text = text.replace(punc, "")
+    return text
 
 def remove_newline(text):
     """
@@ -105,8 +106,8 @@ def remove_newline(text):
     'life happens when youre busy making other plans'
     """
     # TODO: Your code here
-    pass
-
+    text_no_nl = text.replace("\n", "")
+    return text_no_nl
 
 def split_text_into_words(text):
     """
@@ -129,7 +130,8 @@ def split_text_into_words(text):
     ['get', 'started', 'by', 'stop', 'talking', 'and', 'begin', 'doing']
     """
     # TODO: Your code here
-    pass
+    words = text.split()
+    return words
 
 
 def remove_stopwords(word_lst, stopwords_set):
@@ -156,7 +158,12 @@ def remove_stopwords(word_lst, stopwords_set):
     ['tell', 'me', 'forget']
     """
     # TODO: Your code here
-    pass
+    word_lst_no_sw = []
+
+    for word in word_lst:
+        if word not in stopwords_set:
+            word_lst_no_sw.append(word)
+    return word_lst_no_sw
 
 
 def replace_names(word_lst, name_set, replacement_val):
@@ -187,8 +194,14 @@ def replace_names(word_lst, name_set, replacement_val):
     # TODO: Your code here
     # Hint: Use a list comprehension with a conditional
     # If word is in name_set, use replacement_val, otherwise use word
-    pass
+    word_lst_replaced_names = []
 
+    for name in word_lst:
+        if name in name_set:
+            word_lst_replaced_names.append(replacement_val)
+        else:
+            word_lst_replaced_names.append(name)
+    return word_lst_replaced_names
 
 def create_cleaned_textline_from_words(words):
     """
@@ -213,7 +226,8 @@ def create_cleaned_textline_from_words(words):
     """
     # TODO: Your code here
     # Hint: Use the .join() method
-    pass
+    cleaned_text = " ".join(words)
+    return cleaned_text
 
 
 def line_cleaning_pipeline(text, stopwords_set, name_set, replace_val):
@@ -270,10 +284,31 @@ if __name__ == '__main__':
     # Example: Testing the lowercase function
     text = text_str1
     text_lc = lowercase_text(text)
-    print(f"Original: {text}")
-    print(f"Lowercased: {text_lc}.")
+    print(f"\nOriginal: {text}\n")
+    print(f"Lowercased: {text_lc}.\n")
 
     # TODO: Add your own tests below as you implement each function
     # Example for testing remove_punctuation:
     # text_no_punct = remove_punctuation(text_lc)
     # print(f"No punctuation: {text_no_punct}")
+
+    text_no_punct = remove_punctuation(text_lc)
+    print(f"No punctuation: {text_no_punct}\n")
+
+    text_no_nl = remove_newline(text_no_punct)
+    print(f"No newlines: {text_no_nl}\n")
+
+    words = split_text_into_words(text_no_nl)
+    print(f"Split into words: {words}\n")
+
+    words_nsw = remove_stopwords(words, stopwords)
+    print(f'No stopwords: {words_nsw}\n')
+
+    name_set = {'seokwoo', 'suan'}
+    replacement_val = 'person'
+
+    words_cleaned = replace_names(words_nsw, name_set, replacement_val)
+    print(f'No names: {words_cleaned}\n')
+
+    line_of_text_cleaned = create_cleaned_textline_from_words(words_cleaned)
+    print(f'Joined textline: {line_of_text_cleaned}')
